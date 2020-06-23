@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    volumes:
+      - db_datas:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: magpiesup
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pwd
+    ports:
+      - "3306:3306"
+  apache_php:
+    build:
+      context: ./engine/apache-php/
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app:cached
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+
+volumes:
+  db_datas:
