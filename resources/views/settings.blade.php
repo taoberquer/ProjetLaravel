@@ -51,8 +51,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
-
-                    {{ old('password', $user->password) }}
                 </div>
             </div>
         </div>
