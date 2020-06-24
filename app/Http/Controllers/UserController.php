@@ -22,7 +22,9 @@ class UserController extends Controller
 
     public function updateSettings(UpdateSettingsRequest $request)
     {
-        Auth::user()->update($request->validated());
+        $data = $request->all();
+
+        Auth::user()->update($data);
 
         return back()->with('status', 'Vos informations ont été modifiées');
     }

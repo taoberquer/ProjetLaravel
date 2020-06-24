@@ -38,19 +38,21 @@
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{ old('email', $user->email) }}">
                         </div>
                         <div class="form-group">
-                            <label for="old_password">Old password</label>
-                            <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Enter email">
+                            <label for="current_password">Old password</label>
+                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Old password">
                         </div>
                         <div class="form-group">
                             <label for="password">New password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter email">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="New password">
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation">Confirm new password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter email">
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+
+                    {{ old('password', $user->password) }}
                 </div>
             </div>
         </div>

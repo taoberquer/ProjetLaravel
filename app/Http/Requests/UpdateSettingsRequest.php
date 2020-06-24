@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateSettingsRequest extends FormRequest
 {
@@ -24,10 +25,28 @@ class UpdateSettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|email',
-            'old_password' => 'sometimes',
-            'password' => 'sometimes|confirmed'
+            'current_password' => 'sometimes',
+            'password' => 'nullable|sometimes_with:password_confirmation|string|confirmed'
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        // checks user current password
+        // before making changes
+        $validator->after(function ($validator) {
+            if ( !Hash::check($this->current_password, $this->user()->password) ) {
+                $validator->errors()->add('current_password', 'Your current password is incorrect.');
+            }
+        });
+        return;
     }
 }
