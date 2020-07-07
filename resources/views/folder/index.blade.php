@@ -8,6 +8,7 @@
                 <div class="card-header">
                     {{ __('Vos fichiers') }}
                 </div>
+
                 <div class="col-12">
                     <form action="{{ route('file.storeFolder', $folderID) }}" method="post" class="row">
                         @csrf
@@ -23,6 +24,7 @@
                         <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser le fichier') }}</button>
                     </form>
                 </div>
+                
                 <div class="card-body">
                         <table class="table">
                             <thead>

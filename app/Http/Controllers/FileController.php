@@ -15,10 +15,14 @@ class FileController extends Controller
 {
     public function index($folderID = null)
     {
+        $breadcrumbs = [];
+        if(null !== $folderID)
+            $breadcrumbs = File::find($folderID)->getBreadcrumbsArray();
+
         $files = File::where('user_id', Auth::user()
             ->getAuthIdentifier())->where('file_id', $folderID)->get();
 
-        return view('folder.index', compact('files', 'folderID'));
+        return view('folder.index', compact('files', 'folderID', 'breadcrumbs'));
     }
 
     public function storeFolder(StoreFolderRequest $request, int $folderID = null)
