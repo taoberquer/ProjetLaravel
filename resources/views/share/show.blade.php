@@ -17,7 +17,7 @@
                                 <input name="write" type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">{{ __('Autoriser l\'écriture') }}</label>
                             </div>
-                            <button class="col-auto">{{ __('Partager') }}</button>
+                            <button class="btn btn-primary col-auto">{{ __('Partager') }}</button>
                         </form>
 
                         <hr>
@@ -43,7 +43,7 @@
                                         <form method="post" action="{{ route('file.share.destroy',[ $fileID, $share->id]) }}">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit">Supprimer</button>
+                                            <button type="submit" class="btn btn-danger">Supprimer</button>
                                         </form>
                                     </td>
                                 </tr>

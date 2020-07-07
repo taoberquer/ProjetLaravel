@@ -61,7 +61,7 @@
 
                                             <button type="submit" class="btn btn-info">{{ __('Modifier') }}</button>
 
-                                            <a href="{{ route('file.share.show', $file->id ) }}" class="btn btn-light">{{ __('Partager') }}</a>
+                                            <a href="{{ route('file.share.show', $file->id ) }}" class="btn btn-success">{{ __('Partager') }}</a><br>
 
                                             @if ($file->type === 'file')
                                                     <a href="{{ route('file.download', $file->id) }}" class="btn btn-secondary">{{ __('Télécharger') }}</a>
