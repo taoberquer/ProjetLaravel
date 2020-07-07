@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class File extends Model
 {
     protected $fillable = [
         'name',
+        'path',
         'size',
         'type',
         'user_id',
@@ -19,6 +21,9 @@ class File extends Model
     {
         if ($this->type === 'folder')
             $this->files()->delete();
+
+        if ($this->type === 'file')
+            Storage::delete($this->path);
 
         return parent::delete();
     }

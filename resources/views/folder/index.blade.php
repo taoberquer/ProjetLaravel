@@ -17,10 +17,10 @@
                         <input class="form-control col" type="text" name="folder_name" placeholder="{{ __('Nom du dossier') }}" required>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Créer le dossier') }}</button>
                     </form>
-                    <form action="{{ route('file.storeFiles') }}" method="post" class="row">
+                    <form action="{{ route('file.storeFiles') }}" method="post" class="row" enctype="multipart/form-data">
                         @csrf
                         <div class="custom-file col">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser des fichiers') }}</button>

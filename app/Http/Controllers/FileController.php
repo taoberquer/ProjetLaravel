@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\UpdateFileRequest;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -30,9 +33,21 @@ class FileController extends Controller
         return redirect()->back()->with('status', __('Le dossier a bien été créé.'));
     }
 
-    public function storeFiles(StoreFolderRequest $request, int $folderID = null)
+    public function storeFiles(StoreFileRequest $request, int $folderID = null)
     {
+        $uploadedFilePath = Storage::putFile('files', $request->file('file'));
 
+        File::create([
+            'name' => $request->file('file')->getClientOriginalName(),
+            'path' => $uploadedFilePath,
+            'size' => $request->file('file')->getSize(),
+            'type' => 'file',
+            'user_id' => Auth::user()->getAuthIdentifier(),
+            'file_id' => $folderID
+
+        ]);
+
+        return redirect()->back()->with('status', __('Le fichier a été téléverser.'));
     }
 
     public function update(UpdateFileRequest $request, int $fileID)
