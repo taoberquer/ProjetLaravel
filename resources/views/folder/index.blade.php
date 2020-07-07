@@ -12,10 +12,18 @@
                     <button class="btn btn-primary">{{ __('Partager') }}</button>
                 </div>
                 <div class="col-12">
-                    <form action="{{ route('file.store') }}" method="post" class="row">
+                    <form action="{{ route('file.storeFolder', $folderID) }}" method="post" class="row">
                         @csrf
-                        <input class="form-control col" type="text" name="file_name" placeholder="{{ __('Nom du dossier') }}" required>
+                        <input class="form-control col" type="text" name="folder_name" placeholder="{{ __('Nom du dossier') }}" required>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Créer le dossier') }}</button>
+                    </form>
+                    <form action="{{ route('file.storeFiles') }}" method="post" class="row">
+                        @csrf
+                        <div class="custom-file col">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                        <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser des fichiers') }}</button>
                     </form>
                 </div>
                 <div class="card-body">
@@ -52,13 +60,13 @@
 
                                                 <a class="dropdown-item" href="{{ route('file.destroy', $file->id) }}"
                                                    onclick="event.preventDefault();
-                                                     document.getElementById('destroy-form').submit();">
+                                                     document.getElementById('destroy-form-{{ $file->id }}').submit();">
                                                     {{ __('Supprimer') }}
                                                 </a>
 
                                         </td>
                                     </form>
-                                    <form action="{{ route('file.destroy', $file->id) }}" id="destroy-form" method="post"  style="display: none;">
+                                    <form action="{{ route('file.destroy', $file->id) }}" id="destroy-form-{{ $file->id }}" method="post"  style="display: none;">
                                         @csrf
                                         @method('delete')
                                     </form>
