@@ -39,6 +39,11 @@ class File extends Model
         return $this->belongsTo(File::class);
     }
 
+    public function shares(): HasMany
+    {
+        return $this->hasMany(Share::class);
+    }
+
     public function getBreadcrumbsArray(): array
     {
         if (null === $this->file_id)
