@@ -32,13 +32,15 @@ Route::group(['middleware' => 'auth'], function(){
         });
     });
 
-    Route::group(['as' => 'shared.', 'prefix' => 'shared/{file_id}', 'middleware' => ['share.file']], function () {
-        Route::get('/download', 'FileController@download')->name('download');
-        Route::get('/', 'ShareController@index')->name('index');
-        Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
-        Route::post('/', 'FileController@storeFiles')->name('storeFiles');
-        Route::put('/', 'FileController@update')->name('update');
-        Route::delete('/', 'FileController@destroy')->name('destroy');
+    Route::group(['as' => 'shared.', 'prefix' => 'shared', 'middleware' => ['share.file']], function () {
+        Route::group(['prefix' => '{file_id}'], function () {
+            Route::get('/download', 'FileController@download')->name('download');
+            Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
+            Route::post('/', 'FileController@storeFiles')->name('storeFiles');
+            Route::put('/', 'FileController@update')->name('update');
+            Route::delete('/', 'FileController@destroy')->name('destroy');
+        });
+        Route::get('/index', 'ShareController@index')->name('index');
     });
 
     //TODO : Faire les routes de partages

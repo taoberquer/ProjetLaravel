@@ -6,10 +6,22 @@ use App\File;
 use App\Http\Requests\StoreShareRequest;
 use App\Share;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShareController extends Controller
 {
+    public function index($folderID = null)
+    {
+        $breadcrumbs = [];
+//        if(null !== $folderID)
+//            $breadcrumbs = File::find($folderID)->getBreadcrumbsArray();
+
+        $files = Share::with('file')->where('user_id', Auth::user()
+            ->getAuthIdentifier())->get();
+
+        return view('shared.index', compact('files', 'folderID', 'breadcrumbs'));
+    }
+
     public function show(int $fileID)
     {
         $shares = File::find($fileID)->shares;

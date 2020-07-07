@@ -32,7 +32,7 @@
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Vos fichiers') }} <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{__('Fichiers partagés')}} <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ route('shared.index') }}">{{__('Fichiers partagés')}} <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                 </div>
