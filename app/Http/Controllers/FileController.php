@@ -67,8 +67,11 @@ class FileController extends Controller
         return redirect()->back()->with('status', __('L\'élément a été supprimé.'));
     }
 
-    public function download(int $folderID)
+    public function download(int $fileID)
     {
+        $file = File::find($fileID);
+        dd($file);
 
+        return Storage::download('file.jpg');
     }
 }

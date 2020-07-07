@@ -7,9 +7,6 @@
             <div class="card">
                 <div class="card-header">
                     {{ __('Vos fichiers') }}
-
-                    <button class="btn btn-primary">{{ __('Téléverser un document') }}</button>
-                    <button class="btn btn-primary">{{ __('Partager') }}</button>
                 </div>
                 <div class="col-12">
                     <form action="{{ route('file.storeFolder', $folderID) }}" method="post" class="row">
@@ -23,17 +20,17 @@
                             <input type="file" name="file" class="custom-file-input">
                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
-                        <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser des fichiers') }}</button>
+                        <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser le fichier') }}</button>
                     </form>
                 </div>
                 <div class="card-body">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">{{ __('Type') }}</th>
+                                <th scope="col">{{ __('Nom') }}</th>
+                                <th scope="col">{{ __('Taille') }}</th>
+                                <th scope="col">{{ __('Action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -42,23 +39,23 @@
                                     <form method="post" action="{{ route('file.update', $file->id) }}">
                                         @csrf
                                         @method('put')
-                                        <th scope="row">{{ $file->type }}</th>
+                                        <th scope="row">{{ ucwords($file->type) }}</th>
                                         <td>
-                                            <input type="text" value="{{ old('name', $file->name) }}" name="file_name">
+                                            <input type="text" class="form-control" value="{{ old('name', $file->name) }}" name="file_name">
                                         </td>
-                                        <td>{{ $file->size }}</td>
+                                        <td>{{ $file->size }} Octets</td>
                                         <td>
                                             @if ($file->type === 'folder')
-                                                <a href="{{ route('home', $file->id) }}">{{ __('Ouvrir') }}</a>
+                                                <a href="{{ route('home', $file->id) }}" class="btn btn-primary">{{ __('Ouvrir') }}</a>
                                             @endif
 
-                                            <button type="submit">{{ __('Modifier') }}</button>
+                                            <button type="submit" class="btn btn-info">{{ __('Modifier') }}</button>
 
                                             @if ($file->type === 'file')
-                                                    <a href="{{ route('file.download', $file->id) }}">{{ __('Télécharger') }}</a>
+                                                    <a href="{{ route('file.download', $file->id) }}" class="btn btn-secondary">{{ __('Télécharger') }}</a>
                                             @endif
 
-                                                <a class="dropdown-item" href="{{ route('file.destroy', $file->id) }}"
+                                                <a class="btn btn-danger" href="{{ route('file.destroy', $file->id) }}"
                                                    onclick="event.preventDefault();
                                                      document.getElementById('destroy-form-{{ $file->id }}').submit();">
                                                     {{ __('Supprimer') }}
