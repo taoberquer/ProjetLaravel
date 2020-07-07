@@ -7,18 +7,18 @@
             <div class="card">
                 <div class="card-header">
                     {{ __('Vos fichiers') }}
-                    <button class="btn btn-primary">{{ __('Créer un dossier') }}</button>
+
                     <button class="btn btn-primary">{{ __('Téléverser un document') }}</button>
                     <button class="btn btn-primary">{{ __('Partager') }}</button>
                 </div>
-
+                <div class="col-12">
+                    <form action="{{ route('file.store') }}" method="post" class="row">
+                        @csrf
+                        <input class="form-control col" type="text" name="file_name" placeholder="{{ __('Nom du dossier') }}" required>
+                        <button type="submit" class="btn btn-success col-auto">{{ __('Créer le dossier') }}</button>
+                    </form>
+                </div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                         <table class="table">
                             <thead>
                             <tr>
@@ -29,24 +29,41 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>Partage / Télécharger / Supprimer</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            @foreach($files as $file)
+                                <tr>
+                                    <form method="post" action="{{ route('file.update', $file->id) }}">
+                                        @csrf
+                                        @method('put')
+                                        <th scope="row">{{ $file->type }}</th>
+                                        <td>
+                                            <input type="text" value="{{ old('name', $file->name) }}" name="file_name">
+                                        </td>
+                                        <td>{{ $file->size }}</td>
+                                        <td>
+                                            @if ($file->type === 'folder')
+                                                <a href="{{ route('home', $file->id) }}">{{ __('Ouvrir') }}</a>
+                                            @endif
+
+                                            <button type="submit">{{ __('Modifier') }}</button>
+
+                                            @if ($file->type === 'file')
+                                                    <a href="{{ route('file.download', $file->id) }}">{{ __('Télécharger') }}</a>
+                                            @endif
+
+                                                <a class="dropdown-item" href="{{ route('file.destroy', $file->id) }}"
+                                                   onclick="event.preventDefault();
+                                                     document.getElementById('destroy-form').submit();">
+                                                    {{ __('Supprimer') }}
+                                                </a>
+
+                                        </td>
+                                    </form>
+                                    <form action="{{ route('file.destroy', $file->id) }}" id="destroy-form" method="post"  style="display: none;">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                 </div>

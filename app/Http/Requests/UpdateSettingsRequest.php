@@ -26,7 +26,7 @@ class UpdateSettingsRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:mysql.users,email,' . auth()->user()->getAuthIdentifier(),
             'current_password' => 'sometimes',
             'password' => 'nullable|sometimes_with:password_confirmation|string|confirmed'
         ];

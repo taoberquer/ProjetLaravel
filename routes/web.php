@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::group(['as' => 'file.', 'prefix' => 'file'], function () {
         Route::get('{file_id}/download', 'FileController@download')->name('download');
-        Route::post('{file_id?}', 'FileController@storeFile')->name('store');
+        Route::post('{file_id?}', 'FileController@store')->name('store');
         Route::put('{file_id}', 'FileController@update')->name('update');
         Route::delete('{file_id}', 'FileController@destroy')->name('destroy');
     });
