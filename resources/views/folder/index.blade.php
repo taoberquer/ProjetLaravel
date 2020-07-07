@@ -20,7 +20,7 @@
                     <form action="{{ route('file.storeFiles') }}" method="post" class="row" enctype="multipart/form-data">
                         @csrf
                         <div class="custom-file col">
-                            <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <input type="file" name="file" class="custom-file-input">
                             <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                         </div>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser des fichiers') }}</button>

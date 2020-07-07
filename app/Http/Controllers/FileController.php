@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\UpdateFileRequest;
+use App\Http\Requests\StoreFileRequest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
