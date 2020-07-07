@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,8 +34,19 @@ class File extends Model
         return $this->hasMany(File::class);
     }
 
-    public function getBreadcrumbsArray()
+    public function file(): BelongsTo
     {
-        
+        return $this->belongsTo(File::class);
+    }
+
+    public function getBreadcrumbsArray(): array
+    {
+        if (null === $this->file_id)
+            return [$this->id => $this->name];
+
+        $breadcrumbs = $this->file->getBreadcrumbsArray();
+        $breadcrumbs[$this->id] = $this->name;
+
+        return $breadcrumbs;
     }
 }

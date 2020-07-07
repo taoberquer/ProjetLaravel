@@ -6,7 +6,15 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    {{ __('Vos fichiers') }}
+                    <a href="{{ route('home') }}">{{ __('Vos fichiers') }}</a>
+                    @foreach($breadcrumbs as $key => $value)
+                        >
+                        @if ($key == $folderID)
+                            <strong>{{ $value }}</strong>
+                        @else
+                            <a href="{{ route('home', $key) }}"> {{ $value }}</a>
+                        @endif
+                    @endforeach
                 </div>
 
                 <div class="col-12">
@@ -24,7 +32,7 @@
                         <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser le fichier') }}</button>
                     </form>
                 </div>
-                
+
                 <div class="card-body">
                         <table class="table">
                             <thead>
