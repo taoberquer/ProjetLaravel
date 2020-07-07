@@ -70,8 +70,7 @@ class FileController extends Controller
     public function download(int $fileID)
     {
         $file = File::find($fileID);
-        dd($file);
 
-        return Storage::download('file.jpg');
+        return Storage::download($file->path, $file->name);
     }
 }

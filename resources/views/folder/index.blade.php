@@ -14,7 +14,7 @@
                         <input class="form-control col" type="text" name="folder_name" placeholder="{{ __('Nom du dossier') }}" required>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Créer le dossier') }}</button>
                     </form>
-                    <form action="{{ route('file.storeFiles') }}" method="post" class="row" enctype="multipart/form-data">
+                    <form action="{{ route('file.storeFiles', $folderID) }}" method="post" class="row" enctype="multipart/form-data">
                         @csrf
                         <div class="custom-file col">
                             <input type="file" name="file" class="custom-file-input">
@@ -43,7 +43,7 @@
                                         <td>
                                             <input type="text" class="form-control" value="{{ old('name', $file->name) }}" name="file_name">
                                         </td>
-                                        <td>{{ $file->size }} Octets</td>
+                                        <td>{{ BytesToHuman::convert($file->size) }}</td>
                                         <td>
                                             @if ($file->type === 'folder')
                                                 <a href="{{ route('home', $file->id) }}" class="btn btn-primary">{{ __('Ouvrir') }}</a>
