@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </nav>
-            
+
             <main class="py-4">
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">

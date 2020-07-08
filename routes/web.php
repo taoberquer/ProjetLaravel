@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/settings', 'UserController@editSettings')->name('editSettings');
     Route::put('/settings', 'UserController@updateSettings')->name('updateSettings');
 
-    Route::group(['as' => 'file.', 'prefix' => '/file/'], function () {
+    Route::group(['as' => 'file.', 'prefix' => '/file/', 'middleware' => ['own.file']], function () {
         Route::get('{file_id}/download', 'FileController@download')->name('download');
         Route::post('folder/{file_id?}', 'FileController@storeFolder')->name('storeFolder');
         Route::post('{file_id?}', 'FileController@storeFiles')->name('storeFiles');
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function(){
         });
     });
 
-    Route::get('/{file_id?}', 'FileController@index')->name('home');
+    Route::get('/{file_id?}', 'FileController@index')->name('home')->middleware('own.file');
 });
 
 

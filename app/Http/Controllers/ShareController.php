@@ -16,10 +16,8 @@ class ShareController extends Controller
     public function index($folderID = null)
     {
         $breadcrumbs = [];
-//        if(null !== $folderID)
-//            $breadcrumbs = File::find($folderID)->getBreadcrumbsArray();
 
-        $files = null === $folderID ? (User::find(1))->filesFromShares : File::find($folderID)->files;
+        $files = null === $folderID ? (User::find(Auth::id()))->filesFromShares : File::find($folderID)->files;
 
         return view('shared.index', compact('files', 'folderID', 'breadcrumbs'));
     }
