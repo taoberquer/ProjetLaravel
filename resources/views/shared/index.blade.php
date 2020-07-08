@@ -27,8 +27,8 @@
                     <form action="{{ route('shared.storeFiles', $folderID) }}" method="post" class="row" enctype="multipart/form-data">
                         @csrf
                         <div class="custom-file col">
-                            <input type="file" name="file" class="custom-file-input">
-                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            <input type="file" name="file" class="custom-file-input" id="fileInput" lang="fr">
+                            <label class="custom-file-label" for="fileInput" id="fileLabel">{{ __('Choisir un fichier') }}</label>
                         </div>
                         <button type="submit" class="btn btn-success col-auto">{{ __('Téléverser le fichier') }}</button>
                     </form>
