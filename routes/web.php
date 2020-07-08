@@ -16,9 +16,22 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/{file_id?}', 'FileController@index')->name('home');
 
-    Route::group(['as' => 'file.', 'prefix' => 'file'], function () {
+    Route::group(['as' => 'shared.', 'prefix' => 'shared', 'middleware' => ['share.file']], function () {
+        Route::group(['prefix' => '{file_id}'], function () {
+            Route::get('/download', 'FileController@download')->name('download');
+            Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
+            Route::post('/', 'FileController@storeFiles')->name('storeFiles');
+            Route::put('/', 'FileController@update')->name('update');
+            Route::delete('/', 'FileController@destroy')->name('destroy');
+        });
+        Route::get('/index', 'ShareController@index')->name('index');
+    });
+
+    Route::get('/settings', 'UserController@editSettings')->name('editSettings');
+    Route::put('/settings', 'UserController@updateSettings')->name('updateSettings');
+
+    Route::group(['as' => 'file.', 'prefix' => '/file/'], function () {
         Route::get('{file_id}/download', 'FileController@download')->name('download');
         Route::post('folder/{file_id?}', 'FileController@storeFolder')->name('storeFolder');
         Route::post('{file_id?}', 'FileController@storeFiles')->name('storeFiles');
@@ -32,21 +45,7 @@ Route::group(['middleware' => 'auth'], function(){
         });
     });
 
-    Route::group(['as' => 'shared.', 'prefix' => 'shared', 'middleware' => ['share.file']], function () {
-        Route::group(['prefix' => '{file_id}'], function () {
-            Route::get('/download', 'FileController@download')->name('download');
-            Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
-            Route::post('/', 'FileController@storeFiles')->name('storeFiles');
-            Route::put('/', 'FileController@update')->name('update');
-            Route::delete('/', 'FileController@destroy')->name('destroy');
-        });
-        Route::get('/index', 'ShareController@index')->name('index');
-    });
-
-    //TODO : Faire les routes de partages
-
-    Route::get('/settings', 'UserController@editSettings')->name('editSettings');
-    Route::put('/settings', 'UserController@updateSettings')->name('updateSettings');
+    Route::get('/{file_id?}', 'FileController@index')->name('home');
 });
 
 
