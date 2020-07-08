@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Helpers\FileHelper;
 use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Requests\StoreFileRequest;
@@ -27,54 +28,42 @@ class FileController extends Controller
 
     public function storeFolder(StoreFolderRequest $request, int $folderID = null)
     {
-        File::create([
-            'name' => $request->get('folder_name'),
-            'size' => 0,
-            'type' => 'folder',
-            'user_id' => Auth::user()->getAuthIdentifier(),
-            'file_id' => $folderID
-        ]);
+        (new FileHelper())->storeFolder(
+            $request,
+            Auth::user()->getAuthIdentifier(),
+            $folderID
+        );
 
         return redirect()->back()->with('status', __('Le dossier a bien été créé.'));
     }
 
     public function storeFiles(StoreFileRequest $request, int $folderID = null)
     {
-        $uploadedFilePath = Storage::putFile('files', $request->file('file'));
-
-        File::create([
-            'name' => $request->file('file')->getClientOriginalName(),
-            'path' => $uploadedFilePath,
-            'size' => $request->file('file')->getSize(),
-            'type' => 'file',
-            'user_id' => Auth::user()->getAuthIdentifier(),
-            'file_id' => $folderID
-
-        ]);
+        (new FileHelper())->storeFile(
+            $request,
+            Auth::user()->getAuthIdentifier(),
+            $folderID
+        );
 
         return redirect()->back()->with('status', __('Le fichier a été téléverser.'));
     }
 
     public function update(UpdateFileRequest $request, int $fileID)
     {
-        File::find($fileID)->update([
-            'name' => $request->get('file_name')
-        ]);
+        (new FileHelper())->updateFile($request, $fileID);
 
         return redirect()->back()->with('status', __('L\'élément a été mise à jour.'));
     }
 
     public function destroy(int $fileID)
     {
-        File::find($fileID)->delete();
+        (new FileHelper())->destroyFile($fileID);
 
         return redirect()->back()->with('status', __('L\'élément a été supprimé.'));
     }
 
     public function download(int $fileID)
     {
-        $file = File::find($fileID);
-
-        return Storage::download($file->path, $file->name);
+        return (new FileHelper())->downloadFile($fileID);
     }
 }

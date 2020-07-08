@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function filesFromShares(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class, 'shares');
     }
 }

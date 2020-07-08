@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class File extends Model
@@ -39,9 +40,19 @@ class File extends Model
         return $this->belongsTo(File::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function shares(): HasMany
     {
         return $this->hasMany(Share::class);
+    }
+
+    public function share(): BelongsTo
+    {
+        return $this->belongsTo(Share::class);
     }
 
     public function getBreadcrumbsArray(): array
@@ -53,5 +64,13 @@ class File extends Model
         $breadcrumbs[$this->id] = $this->name;
 
         return $breadcrumbs;
+    }
+
+    public static function sharedFiles($userID)
+    {
+        return DB::table('files')
+            ->rightJoin('shares', 'files.id', '=', 'shares.file_id')
+            ->where('shares.user_id', '=', $userID)
+            ->get();
     }
 }
