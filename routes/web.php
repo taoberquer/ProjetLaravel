@@ -19,11 +19,11 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::group(['as' => 'shared.', 'prefix' => 'shared', 'middleware' => ['share.file']], function () {
         Route::group(['prefix' => '/{file_id}'], function () {
-            Route::get('/download', 'FileController@download')->name('download');
-            Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
-            Route::post('/', 'FileController@storeFiles')->name('storeFiles');
-            Route::put('/', 'FileController@updateFile')->name('update');
-            Route::delete('/', 'FileController@destroyFile')->name('destroy');
+            Route::get('/download', 'ShareController@download')->name('download');
+            Route::post('folder/', 'ShareController@storeFolder')->name('storeFolder');
+            Route::post('/', 'ShareController@storeFiles')->name('storeFiles');
+            Route::put('/', 'ShareController@updateFile')->name('update');
+            Route::delete('/', 'ShareController@destroyFile')->name('destroy');
         });
         Route::get('/index/{file_id?}', 'ShareController@index')->name('index');
     });
