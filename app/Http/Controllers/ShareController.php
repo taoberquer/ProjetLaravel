@@ -24,6 +24,34 @@ class ShareController extends Controller
         return view('shared.index', compact('files', 'folderID', 'breadcrumbs'));
     }
 
+    public function show(int $fileID)
+    {
+        $shares = File::find($fileID)->shares;
+
+        return view('share.show', compact('shares', 'fileID'));
+    }
+
+    public function store(StoreShareRequest $request, int $fileID)
+    {
+        $user = User::where('email', $request->get('email'))->first();
+
+        Share::create([
+            'read' => true,
+            'write' => (bool)$request->get('write') ?? false,
+            'file_id' => $fileID,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->back()->with('status', 'L\'utilisateur a été ajouté.');
+    }
+
+    public function destroy(int $fileID, int $shareID)
+    {
+        Share::find($shareID)->delete();
+
+        return redirect()->back()->with('status', 'Le partage a été supprimé.');
+    }
+
     public function storeFolder(StoreFolderRequest $request, int $folderID)
     {
         (new FileHelper())->storeFolder(
@@ -46,14 +74,14 @@ class ShareController extends Controller
         return redirect()->back()->with('status', __('Le fichier a été téléverser.'));
     }
 
-    public function update(UpdateFileRequest $request, int $fileID)
+    public function updateFile(UpdateFileRequest $request, int $fileID)
     {
         (new FileHelper())->updateFile($request, $fileID);
 
         return redirect()->back()->with('status', __('L\'élément a été mise à jour.'));
     }
 
-    public function destroy(int $fileID)
+    public function destroyFile(int $fileID)
     {
         (new FileHelper())->destroyFile($fileID);
 

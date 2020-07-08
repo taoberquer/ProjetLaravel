@@ -22,8 +22,8 @@ Route::group(['middleware' => 'auth'], function(){
             Route::get('/download', 'FileController@download')->name('download');
             Route::post('folder/', 'FileController@storeFolder')->name('storeFolder');
             Route::post('/', 'FileController@storeFiles')->name('storeFiles');
-            Route::put('/', 'FileController@update')->name('update');
-            Route::delete('/', 'FileController@destroy')->name('destroy');
+            Route::put('/', 'FileController@updateFile')->name('update');
+            Route::delete('/', 'FileController@destroyFile')->name('destroy');
         });
         Route::get('/index/{file_id?}', 'ShareController@index')->name('index');
     });
